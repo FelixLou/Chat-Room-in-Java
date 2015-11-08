@@ -13,6 +13,7 @@ class MyServer
 	public final static int PORT=10000;
 	public final static String UPDATE_USERS="updateuserslist:";
 	public final static String LOGOUT_MESSAGE="logoutme:";
+	
 	public MyServer(){
 		try{
 			//ServerSocket must throw exception
@@ -30,6 +31,9 @@ class MyServer
 		catch(Exception e){
 			System.err.println("Server constructor "+e);
 		}
+	}
+	public static void main(String argus[]){
+		new MyServer();
 	}
 }
 
@@ -63,18 +67,19 @@ class MyThread implements Runnable{
 				if(s1.toLowerCase().equals(MyServer.LOGOUT_MESSAGE)){
 					break;
 				}
-				broadCast(userName + "said: " + s1);
+				broadCast(userName + " said: " + s1);
 			}
-			/*
+			
 			DataOutputStream output=new DataOutputStream(s.getOutputStream());
 			output.writeUTF(MyServer.LOGOUT_MESSAGE);
 			output.flush();
-			*/
+			
 			users.remove(userName);
 			broadCast(userName + "log out at " + (new Date()));
 			sendNewUserList();
 			sockets.remove(s);
 			s.close();
+			
 		}
 		catch(Exception e){
 			System.err.println("MyThread run " + e);
@@ -91,7 +96,7 @@ class MyThread implements Runnable{
 				output.flush();
 			}
 			catch(Exception e){
-				System.err.println("MtThread broadCast " + e);
+				System.err.println("MyThread broadCast " + e);
 			}
 		}
 		
